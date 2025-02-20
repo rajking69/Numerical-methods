@@ -1,26 +1,44 @@
 #include <bits/stdc++.h>
 using namespace std;
-int sigDigits(string n)
+
+int countSignificantDigits(string s)
 {
-    int c = 0;
-    bool f = false;
-    for (char x : n)
+    int count = 0, count1 = 0;
+    bool found1 = false, found2 = false, dot = false;
+    for (int i = 0; i < s.size(); i++)
     {
-        if (isdigit(x))
+        if (s[i] == '.')
+            dot = true;
+        if (!dot)
         {
-            if (x != '0' || f)
+            if (isdigit(s[i]))
             {
-                c++;
-                f = true;
+                if (s[i] != '0')
+                    found1 = true;
+                if (found1)
+                    count++;
+            }
+        }
+        else
+        {
+            if (isdigit(s[i]))
+            {
+                if (s[i] != '0')
+                    found2 = true;
+                else
+                    count1++;
+                if (found2)
+                    count++;
             }
         }
     }
-    return c;
+    return found2 ? count : count + count1;
 }
+
 int main()
 {
-    string n;
-    cin >> n;
-    cout << sigDigits(n) << endl;
+    string s;
+    cin >> s;
+    cout << countSignificantDigits(s) << endl;
     return 0;
 }
